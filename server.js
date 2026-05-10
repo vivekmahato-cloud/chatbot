@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
 dotenv.config();
@@ -8,6 +9,12 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(__dirname));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
